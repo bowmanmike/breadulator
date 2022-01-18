@@ -38,30 +38,34 @@ const Calculator = () => {
   };
 
   return (
-    <div>
+    <>
       <h1>Calculator</h1>
-      <div>
-        {Object.keys(values).map((field) => (
-          <div key={field}>
-            <label htmlFor={field}>
-              {field.replace(/^\w/, (c) => c.toUpperCase())}
-            </label>
-            <input
-              name={field}
-              type="number"
-              onChange={handleChange}
-              value={values[field as keyof typeof values]}
-            />
-          </div>
-        ))}
+      <div className="flex flex-col md:flex-row space-x-4">
+        <div className="border border-gray-400 w-full md:w-1/2">
+          {Object.keys(values).map((field) => (
+            <div key={field} className="text-center my-2">
+              <label htmlFor={field} className="w-1/4 inline-block text-center">
+                {field.replace(/^\w/, (c) => c.toUpperCase())}
+              </label>
+              <input
+                name={field}
+                id={field}
+                type="number"
+                onChange={handleChange}
+                value={values[field as keyof typeof values]}
+                className="bg-gray-400 w-1/4 text-center"
+              />
+            </div>
+          ))}
+          <button type="button" onClick={resetForm}>
+            Clear
+          </button>
+        </div>
+        <div className="border border-gray-700 w-full md:w-1/2">
+          <DisplayTable data={values} mode={mode} />
+        </div>
       </div>
-      <button type="button" onClick={resetForm}>
-        Clear
-      </button>
-      <div>
-        <DisplayTable data={values} mode={mode} />
-      </div>
-    </div>
+    </>
   );
 };
 
