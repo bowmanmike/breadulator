@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
+import DisplayTable from './DisplayTable';
 
-interface FormState {
+export interface FormState {
   flour: number;
   water: number;
   salt: number;
   yeast: number;
 }
 
+export type CalcMode = 'WEIGHT' | 'PERCENTAGE';
+
 const Calculator = () => {
   const [values, setValues] = useState({
-    flour: 0,
-    water: 0,
-    salt: 0,
-    yeast: 0,
+    flour: 500,
+    water: 350,
+    salt: 12,
+    yeast: 2,
   } as FormState);
-
-  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log('submitting');
-    console.log({ values });
-  };
+  const [mode, setMode] = useState('PERCENTAGE' as CalcMode);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
@@ -41,9 +38,9 @@ const Calculator = () => {
   };
 
   return (
-    <>
-      <div>Calculator</div>
-      <form onSubmit={submitForm}>
+    <div>
+      <h1>Calculator</h1>
+      <div>
         {Object.keys(values).map((field) => (
           <div key={field}>
             <label htmlFor={field}>
@@ -57,23 +54,14 @@ const Calculator = () => {
             />
           </div>
         ))}
-        <button type="submit">Submit</button>
-        <button type="button" onClick={resetForm}>
-          Clear
-        </button>
-      </form>
-      <div>
-        <h1>Percentages</h1>
       </div>
+      <button type="button" onClick={resetForm}>
+        Clear
+      </button>
       <div>
-        <h1>State</h1>
-        {Object.keys(values).map((k) => (
-          <div key={k}>
-            {k} - {values[k as keyof typeof values]}
-          </div>
-        ))}
+        <DisplayTable data={values} mode={mode} />
       </div>
-    </>
+    </div>
   );
 };
 
