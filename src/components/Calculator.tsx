@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DisplayTable from './DisplayTable';
+import ScalableRecipe from './ScalableRecipe';
 
 export interface FormState {
   flour: number;
@@ -18,6 +19,8 @@ const Calculator = () => {
     yeast: 2,
   } as FormState);
   const [mode, setMode] = useState('PERCENTAGE' as CalcMode);
+  const swapMode = () =>
+    mode === 'PERCENTAGE' ? setMode('WEIGHT') : setMode('PERCENTAGE');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value);
@@ -60,11 +63,15 @@ const Calculator = () => {
           <button type="button" onClick={resetForm}>
             Clear
           </button>
+          <button type="button" onClick={swapMode}>
+            Swap
+          </button>
         </div>
         <div className="border border-gray-700 w-full md:w-1/2">
           <DisplayTable data={values} mode={mode} />
         </div>
       </div>
+      <ScalableRecipe />
     </>
   );
 };

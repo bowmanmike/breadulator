@@ -1,19 +1,14 @@
 import { FormState, CalcMode } from './Calculator';
-import { calcBakersPercentage } from '../lib/calculations';
+import PercentageTable from './PercentageTable';
+import GramsTable from './GramsTable';
 
 const DisplayTable = ({ data, mode }: { data: FormState; mode: CalcMode }) => (
   <div>
-    {mode}
-    {Object.keys(data).map((ingredient) => (
-      <p key={ingredient}>
-        {ingredient} -{' '}
-        {calcBakersPercentage(
-          data.flour,
-          data[ingredient as keyof typeof data]
-        )}
-        {mode === 'WEIGHT' ? 'g' : '%'}
-      </p>
-    ))}
+    {mode === 'PERCENTAGE' ? (
+      <PercentageTable data={data} />
+    ) : (
+      <GramsTable data={data} />
+    )}
   </div>
 );
 
