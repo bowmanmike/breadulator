@@ -1,78 +1,82 @@
 import React, { useState } from 'react';
-import DisplayTable from './DisplayTable';
-import ScalableRecipe from './ScalableRecipe';
+import { Ingredient, Recipe } from '../lib/recipe';
+// import DisplayTable from './DisplayTable';
+// import ScalableRecipe from './ScalableRecipe';
 
-export interface FormState {
-  flour: number;
-  water: number;
-  salt: number;
-  yeast: number;
-}
+// export interface FormState {
+//   scale: number;
+//   flour: number;
+//   water: number;
+//   salt: number;
+//   yeast: number;
+// }
 
 export type CalcMode = 'WEIGHT' | 'PERCENTAGE';
 
 const Calculator = () => {
-  const [values, setValues] = useState({
-    flour: 500,
-    water: 350,
-    salt: 12,
-    yeast: 2,
-  } as FormState);
-  const [mode, setMode] = useState('PERCENTAGE' as CalcMode);
-  const swapMode = () =>
-    mode === 'PERCENTAGE' ? setMode('WEIGHT') : setMode('PERCENTAGE');
+  const [recipe, setRecipe] = useState(
+    new Recipe({
+      flour: 500,
+      water: 350,
+      salt: 12,
+      yeast: 2,
+    })
+  );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseInt(e.target.value);
+  const [scale, setScale] = useState(1.0);
+  // const [mode, setMode] = useState('PERCENTAGE' as CalcMode);
+  // const swapMode = () =>
+  //   mode === 'PERCENTAGE' ? setMode('WEIGHT') : setMode('PERCENTAGE');
 
-    setValues({
-      ...values,
-      [e.target.name]: val,
-    });
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const val = parseInt(e.target.value);
 
-  const resetForm = () => {
-    const newValues: FormState = Object.keys(values).reduce((acc, key) => {
-      acc[key as keyof typeof values] = 0;
-      return acc;
-    }, {} as FormState);
+  //   setValues({
+  //     ...values,
+  //     [e.target.name]: val,
+  //   });
+  // };
 
-    setValues(newValues);
-  };
+  // const resetForm = () => {
+  //   const newValues: Recipe = Object.keys(values).reduce((acc, key) => {
+  //     acc[key as keyof typeof values] = 0;
+  //     return acc;
+  //   }, {} as Recipe);
+
+  //   setValues(newValues);
+  // };
 
   return (
-    <>
-      <h1>Calculator</h1>
-      <div className="flex flex-col md:flex-row space-x-4">
-        <div className="border border-gray-400 w-full md:w-1/2">
-          {Object.keys(values).map((field) => (
-            <div key={field} className="text-center my-2">
-              <label htmlFor={field} className="w-1/4 inline-block text-center">
-                {field.replace(/^\w/, (c) => c.toUpperCase())}
-              </label>
-              <input
-                name={field}
-                id={field}
-                type="number"
-                onChange={handleChange}
-                value={values[field as keyof typeof values]}
-                className="bg-gray-400 w-1/4 text-center"
-              />
-            </div>
-          ))}
-          <button type="button" onClick={resetForm}>
-            Clear
-          </button>
-          <button type="button" onClick={swapMode}>
-            Swap
-          </button>
-        </div>
-        <div className="border border-gray-700 w-full md:w-1/2">
-          <DisplayTable data={values} mode={mode} />
-        </div>
+    <div className="flex flex-col md:flex-row space-x-4">
+      <div className="border border-gray-400 w-full md:w-1/2">
+        input form here
       </div>
-      <ScalableRecipe />
-    </>
+      <div className="border border-gray-400 w-full md:w-1/2">
+        <h2>Scaled</h2>
+        <div>
+          <label htmlFor="input-scale">Scale</label>
+          <input
+            type="number"
+            min={0}
+            step="0.1"
+            value={scale}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setScale(parseFloat(e.target.value))
+            }
+          />
+        </div>
+        {recipe.ingredients().map((ingredient) => (
+          <div key={`output-${ingredient}`}>
+            <div>
+              {ingredient} -{' '}
+              {Math.round(
+                recipe.scaledIngredients(scale)[ingredient as Ingredient]
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
