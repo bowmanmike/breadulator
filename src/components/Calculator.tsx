@@ -65,7 +65,7 @@ const Calculator = () => {
             }
           />
         </div>
-        {recipe.ingredients().map((ingredient) => (
+        {Recipe.ingredients().map((ingredient) => (
           <div key={`output-${ingredient}`}>
             <div>
               {ingredient} -{' '}

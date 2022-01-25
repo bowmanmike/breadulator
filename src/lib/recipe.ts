@@ -1,3 +1,5 @@
+export type Ingredient = 'flour' | 'water' | 'salt' | 'yeast';
+
 export class Recipe {
   flour: number;
 
@@ -6,8 +8,6 @@ export class Recipe {
   salt: number;
 
   yeast: number;
-
-  scale: number;
 
   constructor({
     flour,
@@ -24,7 +24,6 @@ export class Recipe {
     this.water = water;
     this.salt = salt;
     this.yeast = yeast;
-    this.scale = 1.0;
   }
 
   scaledIngredients(scale = 1.0) {
@@ -36,9 +35,7 @@ export class Recipe {
     };
   }
 
-  ingredients() {
+  static ingredients(): Ingredient[] {
     return ['flour', 'water', 'salt', 'yeast'];
   }
 }
-
-export type Ingredient = 'flour' | 'water' | 'salt' | 'yeast';
