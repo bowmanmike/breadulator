@@ -54,7 +54,9 @@ const Calculator = () => {
         {Recipe.ingredients().map((ingredient) => (
           <div key={`output-${ingredient}`}>
             <div>
-              {ingredient} - {Math.round(recipe.scaledIngredients(scale)[ingredient])}
+              <p>
+                {ingredient} - {Math.round(recipe.scaledIngredients(scale)[ingredient])}g
+              </p>
             </div>
           </div>
         ))}
