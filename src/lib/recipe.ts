@@ -18,10 +18,26 @@ export class Recipe {
 
   scaledIngredients(scale = 1.0) {
     return {
-      flour: this.flour * scale,
-      water: this.water * scale,
-      salt: this.salt * scale,
-      yeast: this.yeast * scale,
+      flour: Math.round(this.flour * scale),
+      water: Math.round(this.water * scale),
+      salt: Math.round(this.salt * scale),
+      yeast: Math.round(this.yeast * scale),
+    };
+  }
+
+  bakersPercentage(ingredient: Ingredient) {
+    if (ingredient === 'flour') return 100;
+
+    // Not ideal, a hack to get JS to round to 1 decimal place
+    return Math.round((this[ingredient] / this.flour) * 1000) / 10;
+  }
+
+  allBakersPercentages() {
+    return {
+      flour: 100,
+      water: Math.round(this.water / this.flour),
+      salt: Math.round(this.salt / this.flour),
+      yeast: Math.round(this.yeast / this.flour),
     };
   }
 

@@ -55,7 +55,8 @@ const Calculator = () => {
           <div key={`output-${ingredient}`}>
             <div>
               <p>
-                {ingredient} - {Math.round(recipe.scaledIngredients(scale)[ingredient])}g
+                {ingredient} - {recipe.scaledIngredients(scale)[ingredient]}g
+                or {recipe.bakersPercentage(ingredient)}%
               </p>
             </div>
           </div>
