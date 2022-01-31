@@ -9,17 +9,7 @@ export class Recipe {
 
   yeast: number;
 
-  constructor({
-    flour,
-    water,
-    salt,
-    yeast,
-  }: {
-    flour: number;
-    water: number;
-    salt: number;
-    yeast: number;
-  }) {
+  constructor({ flour, water, salt, yeast }: { flour: number; water: number; salt: number; yeast: number }) {
     this.flour = flour;
     this.water = water;
     this.salt = salt;

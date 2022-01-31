@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import { Ingredient, Recipe } from '../lib/recipe';
-// import DisplayTable from './DisplayTable';
-// import ScalableRecipe from './ScalableRecipe';
-
-// export interface FormState {
-//   scale: number;
-//   flour: number;
-//   water: number;
-//   salt: number;
-//   yeast: number;
-// }
+import { Recipe } from '../lib/recipe';
 
 export type CalcMode = 'WEIGHT' | 'PERCENTAGE';
 
@@ -24,34 +14,32 @@ const Calculator = () => {
   );
 
   const [scale, setScale] = useState(1.0);
-  // const [mode, setMode] = useState('PERCENTAGE' as CalcMode);
-  // const swapMode = () =>
-  //   mode === 'PERCENTAGE' ? setMode('WEIGHT') : setMode('PERCENTAGE');
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const val = parseInt(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value);
 
-  //   setValues({
-  //     ...values,
-  //     [e.target.name]: val,
-  //   });
-  // };
-
-  // const resetForm = () => {
-  //   const newValues: Recipe = Object.keys(values).reduce((acc, key) => {
-  //     acc[key as keyof typeof values] = 0;
-  //     return acc;
-  //   }, {} as Recipe);
-
-  //   setValues(newValues);
-  // };
+    setRecipe(new Recipe({ ...recipe, [e.target.name]: val }));
+  };
 
   return (
-    <div className="flex flex-col md:flex-row space-x-4">
-      <div className="border border-gray-400 w-full md:w-1/2">
-        input form here
+    <div className="flex flex-col space-x-4 bg-green-500 md:flex-row">
+      <div className="w-full border border-gray-400 md:w-1/2">
+        <h2>Recipe</h2>
+        {Recipe.ingredients().map((ingredient) => (
+          <div key={`input-${ingredient}`}>
+            <label htmlFor={ingredient}>{ingredient.replace(/^\w/, (c) => c.toUpperCase())}</label>
+            <input
+              type="number"
+              min={0}
+              step="0.5"
+              value={recipe[ingredient]}
+              onChange={handleChange}
+              name={ingredient}
+            />
+          </div>
+        ))}
       </div>
-      <div className="border border-gray-400 w-full md:w-1/2">
+      <div className="w-full border border-gray-400 md:w-1/2">
         <h2>Scaled</h2>
         <div>
           <label htmlFor="input-scale">Scale</label>
@@ -60,18 +48,13 @@ const Calculator = () => {
             min={0}
             step="0.1"
             value={scale}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setScale(parseFloat(e.target.value))
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScale(parseFloat(e.target.value))}
           />
         </div>
         {Recipe.ingredients().map((ingredient) => (
           <div key={`output-${ingredient}`}>
             <div>
-              {ingredient} -{' '}
-              {Math.round(
-                recipe.scaledIngredients(scale)[ingredient as Ingredient]
-              )}
+              {ingredient} - {Math.round(recipe.scaledIngredients(scale)[ingredient])}
             </div>
           </div>
         ))}
