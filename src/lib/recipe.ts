@@ -16,6 +16,10 @@ export class Recipe {
     this.yeast = yeast;
   }
 
+  static defaultRecipe() {
+    return new Recipe({ flour: 500, water: 350, salt: 12, yeast: 2 });
+  }
+
   scaledIngredients(scale = 1.0) {
     return {
       flour: Math.round(this.flour * scale),
