@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { RadioGroup } from '@headlessui/react';
 
 import { Recipe, Ingredient } from '../lib/recipe';
+import { capitalize } from '../lib/capitalize';
 
 export type CalcMode = 'WEIGHT' | 'PERCENTAGE';
 
@@ -60,7 +61,7 @@ const Calculator = () => {
         {Recipe.ingredients().map((ingredient) => (
           <div key={`input-${ingredient}`} className="flex items-center justify-start space-x-2 space-y-1">
             <label htmlFor={ingredient} className="w-1/6">
-              {ingredient.replace(/^\w/, (c) => c.toUpperCase())}
+              {capitalize(ingredient)}
             </label>
             {/* If mode === 'PERCENTAGE', changing this input breaks. */}
             {/* Will need to calculate the amount to set the value based on the changing percentage. */}
@@ -158,13 +159,13 @@ const Calculator = () => {
                     {Recipe.ingredients().map((ingredient, ingredientIdx) => (
                       <tr key={ingredient} className={ingredientIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                         <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                          {ingredient.replace(/^\w/, (c) => c.toUpperCase())}
+                          {capitalize(ingredient)}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                           {recipe.scaledIngredients(scale)[ingredient]}g
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                          {recipe.bakersPercentage(ingredient)}
+                          {recipe.bakersPercentage(ingredient)}%
                         </td>
                       </tr>
                     ))}
