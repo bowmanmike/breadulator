@@ -24,4 +24,28 @@ describe('Recipe', () => {
       expect(recipe.scaledIngredients(0.5)).toEqual(expected);
     });
   });
+
+  describe('setAmountByPercentage', () => {
+    beforeEach(() => {
+      expect(recipe.bakersPercentage('flour')).toEqual(100.0);
+      expect(recipe.bakersPercentage('water')).toEqual(70.0);
+      expect(recipe.bakersPercentage('salt')).toEqual(2.4);
+      expect(recipe.bakersPercentage('yeast')).toEqual(0.4);
+    });
+
+    test('always returns 100.0 for flour', () => {
+      expect(recipe.setAmountByPercentage('flour', 75)).toEqual(100.0);
+    });
+
+    test('sets the ingredient to the corresponding percentage', () => {
+      expect(recipe.setAmountByPercentage('water', 75.0)).toEqual(375.0);
+      expect(recipe.water).toEqual(375.0);
+    });
+
+    test('it works with a percentage over 100', () => {
+      recipe.setAmountByPercentage('water', 105.0);
+
+      expect(recipe.water).toEqual(525.0);
+    });
+  });
 });

@@ -45,7 +45,17 @@ export class Recipe {
     };
   }
 
-  // setAmountByPercentage(ingredient: Ingredient, percentage: number)
+  setAmountByPercentage(ingredient: Ingredient, percentage: number) {
+    if (ingredient === 'flour') return 100.0;
+
+    const flourAmount = this.flour;
+
+    const newIngredientAmount = Math.round(flourAmount * (percentage / 100));
+
+    this[ingredient] = newIngredientAmount;
+
+    return newIngredientAmount;
+  }
 
   static ingredients(): Ingredient[] {
     return ['flour', 'water', 'salt', 'yeast'];
