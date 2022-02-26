@@ -45,6 +45,8 @@ export class Recipe {
     };
   }
 
+  // setAmountByPercentage(ingredient: Ingredient, percentage: number)
+
   static ingredients(): Ingredient[] {
     return ['flour', 'water', 'salt', 'yeast'];
   }
