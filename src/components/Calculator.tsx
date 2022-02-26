@@ -175,6 +175,66 @@ const Calculator = () => {
             </div>
           </div>
         </div>
+        <div className="flex flex-col">
+          <h1>Test table</h1>
+          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                      >
+                        Ingredient
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                      >
+                        Amount (grams)
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                      >
+                        Percentage
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Recipe.ingredients().map((ingredient, ingredientIdx) => (
+                      <tr key={ingredient} className={ingredientIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                          {capitalize(ingredient)}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                          <input
+                            type="number"
+                            min={0}
+                            step="0.5"
+                            value={amountForMode(recipe, ingredient, mode)}
+                            onChange={handleChange}
+                            name={ingredient}
+                            // readOnly={mode === 'PERCENTAGE' && ingredient === 'flour'}
+                            readOnly={mode === 'PERCENTAGE'}
+                            className="w-full rounded shadow-md"
+                            id={ingredient}
+                          />
+                          {recipe.scaledIngredients(scale)[ingredient]}g
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                          {recipe.bakersPercentage(ingredient)}%
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
