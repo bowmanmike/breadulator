@@ -32,8 +32,18 @@ const Calculator = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseFloat(e.target.value);
+    const name = e.target.name as Ingredient;
 
-    setRecipe(new Recipe({ ...recipe, [e.target.name]: val }));
+    if (mode === 'WEIGHT') {
+      setRecipe(new Recipe({ ...recipe, [name]: val }));
+    } else {
+      const newValue = recipe.setAmountByPercentage(name, val);
+      const newRecipe = new Recipe({ ...recipe, [name]: newValue });
+
+      // recipe[name] = newAmount;
+      console.log({ newRecipe, newValue });
+      setRecipe(newRecipe);
+    }
   };
 
   return (
@@ -69,12 +79,12 @@ const Calculator = () => {
             <input
               type="number"
               min={0}
-              step="0.5"
+              step={mode === 'WEIGHT' ? '0.5' : '0.1'}
               value={amountForMode(recipe, ingredient, mode)}
               onChange={handleChange}
               name={ingredient}
-              // readOnly={mode === 'PERCENTAGE' && ingredient === 'flour'}
-              readOnly={mode === 'PERCENTAGE'}
+              readOnly={mode === 'PERCENTAGE' && ingredient === 'flour'}
+              // readOnly={mode === 'PERCENTAGE'}
               className="w-full rounded shadow-md"
               id={ingredient}
             />

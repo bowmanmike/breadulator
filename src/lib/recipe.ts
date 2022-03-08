@@ -50,7 +50,10 @@ export class Recipe {
 
     const flourAmount = this.flour;
 
+    // Weird, this works if you type the number into the box, but not if you
+    // click the up/down arrows. very odd
     const newIngredientAmount = Math.round(flourAmount * (percentage / 100));
+    console.log({ newIngredientAmount, flourAmount, percentage });
 
     this[ingredient] = newIngredientAmount;
 

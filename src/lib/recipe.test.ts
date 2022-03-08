@@ -47,5 +47,13 @@ describe('Recipe', () => {
 
       expect(recipe.water).toEqual(525.0);
     });
+
+    test('it can be called multiple times in a row', () => {
+      recipe.setAmountByPercentage('water', 76);
+      recipe.setAmountByPercentage('water', 77);
+      recipe.setAmountByPercentage('water', 78);
+
+      expect(recipe.water).toEqual(390.0);
+    });
   });
 });
