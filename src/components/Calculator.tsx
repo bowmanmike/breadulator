@@ -36,14 +36,53 @@ const Calculator = () => {
 
   return (
     <div className="my-4 flex flex-col space-x-4 bg-green-200 p-2">
-      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div className="sm:-mx-6 lg:-mx-8">
+        <div className="py-2 align-middle sm:px-6 lg:px-8">
+          <div className="bg-red-200">
+            <h2 className="text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
+            <div className="flex flex-col space-y-2">
+              {Recipe.ingredients().map((ingredient) => {
+                const amountId = `${ingredient}-amount`;
+
+                return (
+                  <div key={ingredient} className="flex w-full items-center justify-around space-x-2">
+                    <div className="w-12">
+                      <label htmlFor={amountId} className="block w-full">
+                        {capitalize(ingredient)}
+                      </label>
+                    </div>
+                    <div className="">
+                      <input
+                        type="number"
+                        id={amountId}
+                        min={0}
+                        value={recipe[ingredient]}
+                        onChange={handleAmountChange}
+                        className="w-full rounded-md border-none shadow"
+                      />
+                    </div>
+                    <div className="">
+                      <input
+                        type="number"
+                        id={`${ingredient}-percentage`}
+                        min={0}
+                        value={recipe.bakersPercentage(ingredient)}
+                        onChange={handlePercentageChange}
+                        className="w-full rounded-md border-none shadow"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* TABLE STARTS HERE */}
           <div className="overflow-hidden sm:rounded-lg">
             <table className="max-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
-              <tr>
-                <th colspan={3}>Enter Your Recipe Details</th>
-              </tr>
+                <tr>
+                  <th colSpan={3}>Enter Your Recipe Details</th>
+                </tr>
                 <tr>
                   <th
                     scope="col"
