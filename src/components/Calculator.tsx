@@ -98,7 +98,7 @@ const Calculator = () => {
               </tbody>
             </table>
           </div>
-          <div className="mt-4 flex space-x-2">
+          <div className="mt-4 flex flex-col space-x-2 md:flex-row ">
             <div className="flex w-1/2 flex-col">
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
