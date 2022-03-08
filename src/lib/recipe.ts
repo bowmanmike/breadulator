@@ -17,7 +17,7 @@ export class Recipe {
   }
 
   static defaultRecipe() {
-    return new Recipe({ flour: 500, water: 350, salt: 12, yeast: 2 });
+    return new Recipe({ flour: 500, water: 375, salt: 10, yeast: 2 });
   }
 
   scaledIngredients(scale = 1.0) {
@@ -33,7 +33,9 @@ export class Recipe {
     if (ingredient === 'flour') return 100;
 
     // Not ideal, a hack to get JS to round to 1 decimal place
-    return Math.round((this[ingredient] / this.flour) * 1000) / 10;
+    const res = Math.round((this[ingredient] / this.flour) * 1000) / 10;
+    console.log({ res, actual: (this[ingredient] / this.flour) * 1000 });
+    return res;
   }
 
   allBakersPercentages() {

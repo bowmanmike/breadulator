@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <header>
-        <h1 className="text-2xl">Breadulator</h1>
+        <h1 className="text-2xl">Let's Breadulate</h1>
         <p>Easily convert to and from baker's percentages.</p>
         <p>Scale recipes up and down with a click.</p>
         <p>Make delicious bread.</p>

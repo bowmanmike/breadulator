@@ -39,42 +39,6 @@ const Calculator = () => {
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <div className="overflow-hidden sm:rounded-lg">
-            <div className="">
-              <PlainButton
-                onClick={() => setRecipe(Recipe.defaultRecipe())}
-                text="Reset To Default"
-                styles="bg-yellow-600"
-              />
-              <div className="flex items-center justify-between">
-                <div className="flex-start flex w-1/2 items-center space-x-2">
-                  <label htmlFor="set-scale" className="w-1/2">
-                    Current Scale:
-                  </label>
-                  <input
-                    type="number"
-                    id="set-scale"
-                    value={scale}
-                    onChange={(e) => setScale(parseFloat(e.target.value))}
-                    min={0}
-                    max={5}
-                    step="0.1"
-                    className="w-1/2 rounded border-none shadow-md"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="input-scale">Scale</label>
-                  <input
-                    type="range"
-                    min={0}
-                    max={5}
-                    step="0.1"
-                    value={scale}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScale(parseFloat(e.target.value))}
-                  />
-                </div>
-              </div>
-              <PlainButton onClick={() => setScale(1.0)} text="Reset Scale" styles="bg-orange-600" />
-            </div>
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -120,7 +84,7 @@ const Calculator = () => {
                       <input
                         type="number"
                         min={0}
-                        step="0.1"
+                        step="0.25"
                         value={recipe.bakersPercentage(ingredient)}
                         onChange={handlePercentageChange}
                         name={ingredient}
@@ -133,6 +97,89 @@ const Calculator = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="mt-4 flex space-x-2">
+            <div className="flex w-1/2 flex-col">
+              <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                          >
+                            Ingredient
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                          >
+                            Initial Amount (g)
+                          </th>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                          >
+                            Scaled Amount (g)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Recipe.ingredients().map((ingredient, ingredientIdx) => (
+                          <tr key={ingredient} className={ingredientIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                            <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                              {capitalize(ingredient)}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{recipe[ingredient]}</td>
+                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                              {recipe.scaledIngredients(scale)[ingredient]}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="w-1/2">
+              <PlainButton
+                onClick={() => setRecipe(Recipe.defaultRecipe())}
+                text="Reset Ingredients To Default"
+                styles="bg-yellow-600"
+              />
+              <div className="flex items-center justify-between">
+                <div className="flex-start flex w-1/2 items-center space-x-2">
+                  <label htmlFor="set-scale" className="w-1/2">
+                    Current Scale:
+                  </label>
+                  <input
+                    type="number"
+                    id="set-scale"
+                    value={scale}
+                    onChange={(e) => setScale(parseFloat(e.target.value))}
+                    min={0}
+                    max={5}
+                    step="0.1"
+                    className="w-1/2 rounded border-none shadow-md"
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <label htmlFor="input-scale">Scale</label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={5}
+                    step="0.1"
+                    value={scale}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScale(parseFloat(e.target.value))}
+                  />
+                </div>
+              </div>
+              <PlainButton onClick={() => setScale(1.0)} text="Reset Scale" styles="bg-orange-600" />
+            </div>
           </div>
         </div>
       </div>
