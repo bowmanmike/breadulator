@@ -38,20 +38,20 @@ const Calculator = () => {
     <div className="my-4 flex flex-col space-x-4 bg-green-200 p-2">
       <div className="sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle sm:px-6 lg:px-8">
-          <div className="bg-red-200">
-            <h2 className="text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
-            <div className="flex flex-col space-y-2">
+          <table className="w-full bg-red-200">
+            <h2 className="mb-2 text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
+            <tbody className="flex flex-col space-y-2">
               {Recipe.ingredients().map((ingredient) => {
                 const amountId = `${ingredient}-amount`;
 
                 return (
-                  <div key={ingredient} className="flex w-full items-center justify-around space-x-2">
-                    <div className="w-12">
+                  <tr key={ingredient} className="flex w-full items-center justify-around space-x-2">
+                    <td className="w-1/3 md:w-1/6">
                       <label htmlFor={amountId} className="block w-full">
                         {capitalize(ingredient)}
                       </label>
-                    </div>
-                    <div className="">
+                    </td>
+                    <td className="w-1/3">
                       <input
                         type="number"
                         id={amountId}
@@ -60,8 +60,8 @@ const Calculator = () => {
                         onChange={handleAmountChange}
                         className="w-full rounded-md border-none shadow"
                       />
-                    </div>
-                    <div className="">
+                    </td>
+                    <td className="w-1/3">
                       <input
                         type="number"
                         id={`${ingredient}-percentage`}
@@ -70,12 +70,17 @@ const Calculator = () => {
                         onChange={handlePercentageChange}
                         className="w-full rounded-md border-none shadow"
                       />
-                    </div>
-                  </div>
+                    </td>
+                  </tr>
                 );
               })}
-            </div>
-          </div>
+            </tbody>
+            <PlainButton
+              onClick={() => setRecipe(Recipe.defaultRecipe())}
+              text="Reset Ingredients To Default"
+              styles="bg-yellow-600"
+            />
+          </table>
           {/* TABLE STARTS HERE */}
           <div className="overflow-hidden sm:rounded-lg">
             <table className="max-w-full divide-y divide-gray-200">
