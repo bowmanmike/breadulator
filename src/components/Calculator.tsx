@@ -91,81 +91,65 @@ const Calculator = () => {
               );
             })}
           </tbody>
-          <tfoot className="">
-            <tr>
-              <td colSpan={3}>
-                <div>
-                  <p className="text-center underline font-semibold my-2">Scale Recipe</p>
-                  <div className="flex justify-evenly space-x-2">
-                    {[0.5, 0.75, 1, 1.5, 2].map((number) => (
-                      <button
-                        className="flex-1 rounded bg-gray-200 shadow-md py-2"
-                        onClick={() => setScale(number)}
-                      >
-                        {number}x
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={3}>
-                <div className="">
-                  <div className="">
-                    {/* What if instead of a slider, I just had buttons? */}
-                    {/* Increase 1.5, 2x, decrease .75, .5 */}
-                    <label htmlFor="set-scale" className="">
-                      Current Scale:
-                    </label>
-                    <input
-                      type="number"
-                      id="set-scale"
-                      value={scale}
-                      onChange={(e) => setScale(parseFloat(e.target.value))}
-                      min={0}
-                      max={5}
-                      step="0.1"
-                      className=""
-                    />
-                  </div>
-                  <div className="">
-                    <label htmlFor="input-scale">Scale</label>
-                    <input type="range" min={0} max={5} step="0.1" value={scale} onChange={updateRecipeScale} />
-                  </div>
-                </div>
-                <PlainButton onClick={() => setScale(1.0)} text="Reset Scale" styles="bg-orange-600" />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={3}>
-                <PlainButton
-                  onClick={() => setRecipe(Recipe.defaultRecipe())}
-                  text="Reset Ingredients To Default"
-                  styles="bg-yellow-600"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={3}>
-                <PlainButton
-                  onClick={() =>
-                    setRecipe(
-                      new Recipe({
-                        flour: 0,
-                        water: 0,
-                        salt: 0,
-                        yeast: 0,
-                      })
-                    )
-                  }
-                  text="Set Ingredients to 0"
-                  styles="bg-cyan-600"
-                />
-              </td>
-            </tr>
-          </tfoot>
         </table>
+        <div>
+          <div>
+            <div>
+              <PlainButton
+                onClick={() => setRecipe(Recipe.defaultRecipe())}
+                text="Reset Ingredients To Default"
+                styles="bg-yellow-600"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <PlainButton
+                onClick={() =>
+                  setRecipe(
+                    new Recipe({
+                      flour: 0,
+                      water: 0,
+                      salt: 0,
+                      yeast: 0,
+                    })
+                  )
+                }
+                text="Set Ingredients to 0"
+                styles="bg-cyan-600"
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <h3 className="my-2 text-center font-semibold underline">Scale Recipe</h3>
+              <div className="flex justify-evenly space-x-2">
+                {[0.5, 0.75, 1, 1.5, 2].map((number) => (
+                  <button className="flex-1 rounded bg-gray-200 py-2 shadow-md" onClick={() => setScale(number)}>
+                    {number}x
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <h3 className="my-2 text-center">Scaled Recipe</h3>
+          <table className="w-full table-fixed bg-green-300">
+            <thead>
+              <tr>
+                <td>Ingredient</td>
+                <td>Scaled Amount (g)</td>
+              </tr>
+            </thead>
+            {Recipe.ingredients().map((ingredient) => (
+              <tr>
+                <td>{capitalize(ingredient)}</td>
+                <td className="text-center">{recipe.scaledIngredients(scale)[ingredient]}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
       </div>
     </div>
   );
