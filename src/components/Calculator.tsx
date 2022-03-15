@@ -93,9 +93,28 @@ const Calculator = () => {
           </tbody>
           <tfoot className="">
             <tr>
-              <td>
+              <td colSpan={3}>
+                <div>
+                  <p className="text-center underline font-semibold my-2">Scale Recipe</p>
+                  <div className="flex justify-evenly space-x-2">
+                    {[0.5, 0.75, 1, 1.5, 2].map((number) => (
+                      <button
+                        className="flex-1 rounded bg-gray-200 shadow-md py-2"
+                        onClick={() => setScale(number)}
+                      >
+                        {number}x
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={3}>
                 <div className="">
                   <div className="">
+                    {/* What if instead of a slider, I just had buttons? */}
+                    {/* Increase 1.5, 2x, decrease .75, .5 */}
                     <label htmlFor="set-scale" className="">
                       Current Scale:
                     </label>
@@ -112,26 +131,36 @@ const Calculator = () => {
                   </div>
                   <div className="">
                     <label htmlFor="input-scale">Scale</label>
-                    <input
-                      type="range"
-                      min={0}
-                      max={5}
-                      step="0.1"
-                      value={scale}
-                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScale(parseFloat(e.target.value))}
-                      onChange={updateRecipeScale}
-                    />
+                    <input type="range" min={0} max={5} step="0.1" value={scale} onChange={updateRecipeScale} />
                   </div>
                 </div>
                 <PlainButton onClick={() => setScale(1.0)} text="Reset Scale" styles="bg-orange-600" />
               </td>
             </tr>
             <tr>
-              <td>
+              <td colSpan={3}>
                 <PlainButton
                   onClick={() => setRecipe(Recipe.defaultRecipe())}
                   text="Reset Ingredients To Default"
                   styles="bg-yellow-600"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={3}>
+                <PlainButton
+                  onClick={() =>
+                    setRecipe(
+                      new Recipe({
+                        flour: 0,
+                        water: 0,
+                        salt: 0,
+                        yeast: 0,
+                      })
+                    )
+                  }
+                  text="Set Ingredients to 0"
+                  styles="bg-cyan-600"
                 />
               </td>
             </tr>
