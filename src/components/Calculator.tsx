@@ -39,8 +39,14 @@ const Calculator = () => {
       <div className="sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle sm:px-6 lg:px-8">
           <table className="w-full bg-red-200">
-            <h2 className="mb-2 text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
-            <tbody className="flex flex-col space-y-2">
+            <thead>
+              <tr>
+                <th>
+                  <h2 className="mb-2 text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="space-y-2">
               {Recipe.ingredients().map((ingredient) => {
                 const amountId = `${ingredient}-amount`;
 
@@ -58,6 +64,7 @@ const Calculator = () => {
                         min={0}
                         value={recipe[ingredient]}
                         onChange={handleAmountChange}
+                        name={ingredient}
                         className="w-full rounded-md border-none shadow"
                       />
                     </td>
@@ -66,168 +73,63 @@ const Calculator = () => {
                         type="number"
                         id={`${ingredient}-percentage`}
                         min={0}
+                        step={ingredient === 'yeast' ? '0.1' : undefined}
                         value={recipe.bakersPercentage(ingredient)}
                         onChange={handlePercentageChange}
+                        name={ingredient}
                         className="w-full rounded-md border-none shadow"
+                        readOnly={ingredient === 'flour'}
                       />
                     </td>
                   </tr>
                 );
               })}
             </tbody>
-            <PlainButton
-              onClick={() => setRecipe(Recipe.defaultRecipe())}
-              text="Reset Ingredients To Default"
-              styles="bg-yellow-600"
-            />
-          </table>
-          {/* TABLE STARTS HERE */}
-          <div className="overflow-hidden sm:rounded-lg">
-            <table className="max-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th colSpan={3}>Enter Your Recipe Details</th>
-                </tr>
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                  >
-                    Ingredient
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                  >
-                    Amount (grams)
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                  >
-                    Percentage
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {Recipe.ingredients().map((ingredient, ingredientIdx) => (
-                  <tr key={ingredient} className={ingredientIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                      {capitalize(ingredient)}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+            <tfoot>
+              <tr>
+                <td>
+                  <div className="flex items-center justify-around pt-2">
+                    <div className="flex-start flex w-1/2 items-center space-x-2 space-y-2">
+                      <label htmlFor="set-scale" className="w-1/2">
+                        Current Scale:
+                      </label>
                       <input
                         type="number"
+                        id="set-scale"
+                        value={scale}
+                        onChange={(e) => setScale(parseFloat(e.target.value))}
                         min={0}
-                        step="0.5"
-                        value={recipe[ingredient]}
-                        onChange={handleAmountChange}
-                        name={ingredient}
-                        className="rounded shadow-md"
-                        id={`${ingredient}-weight`}
+                        max={5}
+                        step="0.1"
+                        className="w-1/2 rounded border-none shadow-md"
                       />
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <label htmlFor="input-scale">Scale</label>
                       <input
-                        type="number"
+                        type="range"
                         min={0}
-                        step="0.25"
-                        value={recipe.bakersPercentage(ingredient)}
-                        onChange={handlePercentageChange}
-                        name={ingredient}
-                        readOnly={ingredient === 'flour'}
-                        className="rounded shadow-md"
-                        id={`${ingredient}-percentage`}
+                        max={5}
+                        step="0.1"
+                        value={scale}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScale(parseFloat(e.target.value))}
                       />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="mt-4 flex flex-col space-x-2 md:flex-row ">
-            <div className="flex w-1/2 flex-col">
-              <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                  <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                          >
-                            Ingredient
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                          >
-                            Initial Amount (g)
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                          >
-                            Scaled Amount (g)
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Recipe.ingredients().map((ingredient, ingredientIdx) => (
-                          <tr key={ingredient} className={ingredientIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                            <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                              {capitalize(ingredient)}
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{recipe[ingredient]}</td>
-                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                              {recipe.scaledIngredients(scale)[ingredient]}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-1/2">
-              <PlainButton
-                onClick={() => setRecipe(Recipe.defaultRecipe())}
-                text="Reset Ingredients To Default"
-                styles="bg-yellow-600"
-              />
-              <div className="flex items-center justify-between">
-                <div className="flex-start flex w-1/2 items-center space-x-2">
-                  <label htmlFor="set-scale" className="w-1/2">
-                    Current Scale:
-                  </label>
-                  <input
-                    type="number"
-                    id="set-scale"
-                    value={scale}
-                    onChange={(e) => setScale(parseFloat(e.target.value))}
-                    min={0}
-                    max={5}
-                    step="0.1"
-                    className="w-1/2 rounded border-none shadow-md"
+                  <PlainButton onClick={() => setScale(1.0)} text="Reset Scale" styles="bg-orange-600" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <PlainButton
+                    onClick={() => setRecipe(Recipe.defaultRecipe())}
+                    text="Reset Ingredients To Default"
+                    styles="bg-yellow-600"
                   />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="input-scale">Scale</label>
-                  <input
-                    type="range"
-                    min={0}
-                    max={5}
-                    step="0.1"
-                    value={scale}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setScale(parseFloat(e.target.value))}
-                  />
-                </div>
-              </div>
-              <PlainButton onClick={() => setScale(1.0)} text="Reset Scale" styles="bg-orange-600" />
-            </div>
-          </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     </div>
