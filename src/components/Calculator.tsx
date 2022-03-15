@@ -56,7 +56,7 @@ const Calculator = () => {
                 <tr key={ingredient} className="mb-2">
                   <td>
                     <label htmlFor={amountId}>
-                      {capitalize(ingredient)}
+                      {ingredient === 'yeast' ? 'Yeast or Starter' : capitalize(ingredient)}
                     </label>
                   </td>
                   <td>
