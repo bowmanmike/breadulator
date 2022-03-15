@@ -34,18 +34,18 @@ const Calculator = () => {
 
   return (
     <div className="my-4">
-      <div className="">
+      <div>
         <table className="w-full table-fixed bg-red-200">
-          <thead className="">
+          <thead>
             <tr>
               <th colSpan={3}>
                 <h2 className="mb-2 text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
               </th>
             </tr>
             <tr>
-              <td>Ingredient</td>
-              <td>Amount (g)</td>
-              <td>Percentage</td>
+              <td className="font-semibold">Ingredient</td>
+              <td className="font-semibold">Amount (g)</td>
+              <td className="font-semibold">Percentage</td>
             </tr>
           </thead>
           <tbody>
@@ -54,12 +54,12 @@ const Calculator = () => {
 
               return (
                 <tr key={ingredient} className="mb-2">
-                  <td className="w-1/6">
-                    <label htmlFor={amountId} className="">
+                  <td>
+                    <label htmlFor={amountId}>
                       {capitalize(ingredient)}
                     </label>
                   </td>
-                  <td className="w-1/3">
+                  <td>
                     <input
                       type="number"
                       id={amountId}
@@ -70,7 +70,7 @@ const Calculator = () => {
                       className="w-full rounded shadow-md"
                     />
                   </td>
-                  <td className="">
+                  <td>
                     <input
                       type="number"
                       id={`${ingredient}-percentage`}
