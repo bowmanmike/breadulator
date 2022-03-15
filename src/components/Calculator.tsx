@@ -32,10 +32,6 @@ const Calculator = () => {
     setRecipe(newRecipe);
   };
 
-  const updateRecipeScale = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setScale(parseFloat(e.target.value));
-  };
-
   return (
     <div className="my-4">
       <div className="">
@@ -98,7 +94,7 @@ const Calculator = () => {
               <PlainButton
                 onClick={() => setRecipe(Recipe.defaultRecipe())}
                 text="Reset Ingredients To Default"
-                styles="bg-yellow-600"
+                styles="bg-orange-200"
               />
             </div>
           </div>
@@ -116,7 +112,7 @@ const Calculator = () => {
                   )
                 }
                 text="Set Ingredients to 0"
-                styles="bg-cyan-600"
+                styles="bg-red-400"
               />
             </div>
           </div>
