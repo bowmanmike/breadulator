@@ -88,33 +88,29 @@ const Calculator = () => {
             })}
           </tbody>
         </table>
-        <div>
-          <div>
-            <div>
-              <PlainButton
-                onClick={() => setRecipe(Recipe.defaultRecipe())}
-                text="Reset Ingredients To Default"
-                styles="bg-orange-200"
-              />
-            </div>
+        <div className="flex flex-col md:flex-row md:space-x-2">
+          <div className="md:w-1/2">
+            <PlainButton
+              onClick={() => setRecipe(Recipe.defaultRecipe())}
+              text="Reset Ingredients To Default"
+              styles="bg-orange-200"
+            />
           </div>
-          <div>
-            <div>
-              <PlainButton
-                onClick={() =>
-                  setRecipe(
-                    new Recipe({
-                      flour: 0,
-                      water: 0,
-                      salt: 0,
-                      yeast: 0,
-                    })
-                  )
-                }
-                text="Set Ingredients to 0"
-                styles="bg-red-400"
-              />
-            </div>
+          <div className="md:w-1/2">
+            <PlainButton
+              onClick={() =>
+                setRecipe(
+                  new Recipe({
+                    flour: 0,
+                    water: 0,
+                    salt: 0,
+                    yeast: 0,
+                  })
+                )
+              }
+              text="Set Ingredients to 0"
+              styles="bg-red-400"
+            />
           </div>
         </div>
         <div>
@@ -123,27 +119,38 @@ const Calculator = () => {
               <h3 className="my-2 text-center font-semibold underline">Scale Recipe</h3>
               <div className="flex justify-evenly space-x-2">
                 {[0.5, 0.75, 1, 1.5, 2].map((number) => (
-                  <button className="flex-1 rounded bg-gray-200 py-2 shadow-md" onClick={() => setScale(number)}>
+                  <button
+                    type="button"
+                    className="flex-1 rounded bg-gray-200 py-2 shadow-md"
+                    onClick={() => setScale(number)}
+                    key={`scaleAmount-${number}`}
+                  >
                     {number}x
                   </button>
                 ))}
               </div>
             </div>
           </div>
-          <h3 className="my-2 text-center">Scaled Recipe</h3>
-          <table className="w-full table-fixed bg-green-300">
-            <thead>
+          <table className="mt-6 min-w-full table-fixed divide-y divide-gray-300 border border-gray-400 md:mx-auto md:w-4/5">
+            <thead className="bg-green-200 text-center">
+              <tr>
+                <td colSpan={2}>
+                  <h3 className="mx-auto my-2 text-center font-semibold">Scaled Recipe</h3>
+                </td>
+              </tr>
               <tr>
                 <td>Ingredient</td>
                 <td>Scaled Amount (g)</td>
               </tr>
             </thead>
-            {Recipe.ingredients().map((ingredient) => (
-              <tr>
-                <td>{capitalize(ingredient)}</td>
-                <td className="text-center">{recipe.scaledIngredients(scale)[ingredient]}</td>
-              </tr>
-            ))}
+            <tbody className="text-center">
+              {Recipe.ingredients().map((ingredient, ingredientIdx) => (
+                <tr key={`scaled-${ingredient}`} className={ingredientIdx % 2 === 0 ? undefined : 'bg-green-100'}>
+                  <td>{capitalize(ingredient)}</td>
+                  <td className="text-center">{recipe.scaledIngredients(scale)[ingredient]}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>

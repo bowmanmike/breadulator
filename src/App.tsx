@@ -15,6 +15,13 @@ function App() {
       </main>
       <footer className="text-center">
         <p>&copy; Mike Bowman - 2022</p>
+        <p className="">
+          Find me at{' '}
+          <a href="https://mikebowman.dev" className="text-blue-800">
+            https://mikebowman.dev
+          </a>
+          !
+        </p>
       </footer>
     </>
   );
