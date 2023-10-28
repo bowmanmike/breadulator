@@ -5,20 +5,8 @@ import { capitalize } from '../lib/capitalize';
 
 export type CalcMode = 'WEIGHT' | 'PERCENTAGE';
 
-const PlainButton = ({
-  text,
-  onClick,
-  styles,
-}: {
-  text: string;
-  onClick: () => void;
-  styles?: string;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`my-2 w-full rounded p-2 shadow-md ${styles}`}
-  >
+const PlainButton = ({ text, onClick, styles }: { text: string; onClick: () => void; styles?: string }) => (
+  <button type="button" onClick={onClick} className={`my-2 w-full rounded p-2 shadow-md ${styles}`}>
     {text}
   </button>
 );
@@ -51,9 +39,7 @@ const Calculator = () => {
           <thead>
             <tr>
               <th colSpan={3}>
-                <h2 className="mb-2 text-xl font-semibold underline">
-                  Enter Your Recipe Details Here
-                </h2>
+                <h2 className="mb-2 text-xl font-semibold underline">Enter Your Recipe Details Here</h2>
               </th>
             </tr>
             <tr>
@@ -70,9 +56,7 @@ const Calculator = () => {
                 <tr key={ingredient} className="mb-2">
                   <td>
                     <label htmlFor={amountId}>
-                      {ingredient === 'yeast'
-                        ? 'Yeast or Starter'
-                        : capitalize(ingredient)}
+                      {ingredient === 'yeast' ? 'Yeast or Starter' : capitalize(ingredient)}
                     </label>
                   </td>
                   <td>
@@ -132,9 +116,7 @@ const Calculator = () => {
         <div>
           <div>
             <div>
-              <h3 className="my-2 text-center font-semibold underline">
-                Scale Recipe
-              </h3>
+              <h3 className="my-2 text-center font-semibold underline">Scale Recipe</h3>
               <div className="flex justify-evenly space-x-2">
                 {[0.5, 0.75, 1, 1.5, 2].map((number) => (
                   <button
@@ -146,6 +128,18 @@ const Calculator = () => {
                     {number}x
                   </button>
                 ))}
+                <div className="flex flex-1 items-center gap-4 rounded bg-gray-200 p-2 shadow-md">
+                  <label htmlFor="custom-scale">Custom</label>
+                  <input
+                    id="custom-scale"
+                    type="number"
+                    value={scale}
+                    min={0}
+                    step="0.1"
+                    onChange={(e) => setScale(parseFloat(e.target.value))}
+                    className="w-20"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -153,9 +147,7 @@ const Calculator = () => {
             <thead className="bg-green-200 text-center">
               <tr>
                 <td colSpan={2}>
-                  <h3 className="mx-auto my-2 text-center font-semibold">
-                    Scaled Recipe
-                  </h3>
+                  <h3 className="mx-auto my-2 text-center font-semibold">Scaled Recipe</h3>
                 </td>
               </tr>
               <tr>
@@ -165,16 +157,9 @@ const Calculator = () => {
             </thead>
             <tbody className="text-center">
               {Recipe.ingredients().map((ingredient, ingredientIdx) => (
-                <tr
-                  key={`scaled-${ingredient}`}
-                  className={
-                    ingredientIdx % 2 === 0 ? undefined : 'bg-green-100'
-                  }
-                >
+                <tr key={`scaled-${ingredient}`} className={ingredientIdx % 2 === 0 ? undefined : 'bg-green-100'}>
                   <td>{capitalize(ingredient)}</td>
-                  <td className="text-center">
-                    {recipe.scaledIngredients(scale)[ingredient]}
-                  </td>
+                  <td className="text-center">{recipe.scaledIngredients(scale)[ingredient]}</td>
                 </tr>
               ))}
             </tbody>
